@@ -8,7 +8,6 @@ from sqlalchemy import create_engine, func
 
 from flask import Flask, jsonify
 
-
 engine = create_engine("sqlite:///hawaii.sqlite")
 Base = automap_base()
 Base.prepare(engine, reflect=True)
@@ -16,9 +15,7 @@ Base.prepare(engine, reflect=True)
 Measurement = Base.classes.measurement
 Station = Base.classes.station
 
-
 app = Flask(__name__)
-
 
 @app.route("/")
 def welcome():
@@ -38,15 +35,15 @@ def get_t_start(start):
         filter(Measurement.date >= start).all()
     session.close()
 
-    tobsall = []
+    list1 = []
     for min,avg,max in queryresult:
-        tobs_dict = {}
-        tobs_dict["Min"] = min
-        tobs_dict["Average"] = avg
-        tobs_dict["Max"] = max
-        tobsall.append(tobs_dict)
+        first_dict = {}
+        first_dict["Min"] = min
+        first_dict["Average"] = avg
+        first_dict["Max"] = max
+        list1.append(first_dict)
 
-    return jsonify(tobsall)
+    return jsonify(list1)
 
 @app.route('/api/v1.0/<start>/<stop>')
 def get_t_start_stop(start,stop):
@@ -55,15 +52,15 @@ def get_t_start_stop(start,stop):
         filter(Measurement.date >= start).filter(Measurement.date <= stop).all()
     session.close()
 
-    tobsall = []
+    list1 = []
     for min,avg,max in queryresult:
-        tobs_dict = {}
-        tobs_dict["Min"] = min
-        tobs_dict["Average"] = avg
-        tobs_dict["Max"] = max
-        tobsall.append(tobs_dict)
+        first_dict = {}
+        first_dict["Min"] = min
+        first_dict["Average"] = avg
+        first_dict["Max"] = max
+        list1.append(first_dict)
 
-    return jsonify(tobsall)
+    return jsonify(list1)
 
 @app.route('/api/v1.0/tobs')
 def tobs():
@@ -75,14 +72,14 @@ def tobs():
     queryresult = session.query(*sel).filter(Measurement.date >= querydate).all()
     session.close()
 
-    tobsall = []
+    list1 = []
     for date, tobs in queryresult:
-        tobs_dict = {}
-        tobs_dict["Date"] = date
-        tobs_dict["Tobs"] = tobs
-        tobsall.append(tobs_dict)
+        first_dict = {}
+        first_dict["Date"] = date
+        first_dict["Tobs"] = tobs
+        list1.append(first_dict)
 
-    return jsonify(tobsall)
+    return jsonify(list1)
 
 @app.route('/api/v1.0/stations')
 def stations():
@@ -93,13 +90,13 @@ def stations():
 
     stations = []
     for station,name,lat,lon,el in queryresult:
-        station_dict = {}
-        station_dict["Station"] = station
-        station_dict["Name"] = name
-        station_dict["Lat"] = lat
-        station_dict["Lon"] = lon
-        station_dict["Elevation"] = el
-        stations.append(station_dict)
+        Stations = {}
+        Stations["Station"] = station
+        Stations["Name"] = name
+        Stations["Lat"] = lat
+        Stations["Lon"] = lon
+        Stations["Elevation"] = el
+        stations.append(Stations)
 
     return jsonify(stations)
 
@@ -112,10 +109,10 @@ def precipitation():
 
     precipitation = []
     for date, prcp in queryresult:
-        prcp_dict = {}
-        prcp_dict["Date"] = date
-        prcp_dict["Precipitation"] = prcp
-        precipitation.append(prcp_dict)
+        dict_3 = {}
+        dict_3["Date"] = date
+        dict_3["Precipitation"] = prcp
+        precipitation.append(dict_3)
 
     return jsonify(precipitation)
 
